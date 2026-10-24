@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "likeness-license"
+version = "0.1.0"
+description = "Getty Images for your face and voice: license your likeness to AI safely"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = []
+
+[project.scripts]
+likeness-license = "likeness_license.__main__:main"
+
+[tool.setuptools]
+packages = ["likeness_license"]
