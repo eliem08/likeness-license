@@ -1,4 +1,5 @@
 """Likeness registry, licence terms, signed certificates, verification and royalties."""
+
 from __future__ import annotations
 
 import base64
@@ -26,7 +27,16 @@ class Terms:
     max_days: int = 365
     exclusive_available: bool = False
     prohibited: set = field(default_factory=lambda: {"political", "adult", "endorsement", "deceased_impersonation"})
-    flat_fee: dict = field(default_factory=lambda: {"advertising": 5000, "film": 8000, "games": 3000, "training": 2000, "education": 500, "social": 1000})
+    flat_fee: dict = field(
+        default_factory=lambda: {
+            "advertising": 5000,
+            "film": 8000,
+            "games": 3000,
+            "training": 2000,
+            "education": 500,
+            "social": 1000,
+        }
+    )
     per_1k_impressions: float = 2.0
     per_generation: float = 0.05
     exclusive_multiplier: float = 3.0
@@ -61,8 +71,17 @@ class Registry:
             raise LicenseError("invalid signature")
         return json.loads(base64.urlsafe_b64decode(body))
 
-    def request(self, owner: str, licensee: str, use: str, territory: str, start: date, days: int,
-                exclusive: bool = False, purpose_tags: set | None = None) -> str:
+    def request(
+        self,
+        owner: str,
+        licensee: str,
+        use: str,
+        territory: str,
+        start: date,
+        days: int,
+        exclusive: bool = False,
+        purpose_tags: set | None = None,
+    ) -> str:
         rec = self.owners.get(owner)
         if not rec:
             raise LicenseError("unknown owner")
@@ -87,9 +106,18 @@ class Registry:
                 raise LicenseError(f"conflicts with exclusive licence {lid}")
         fee = t.flat_fee.get(use, 0) * (days / 365) * (t.exclusive_multiplier if exclusive else 1)
         lid = f"LIC-{next(self._ids):05d}"
-        payload = {"id": lid, "owner": owner, "licensee": licensee, "use": use, "territory": territory,
-                   "start": start.isoformat(), "end": end.isoformat(), "exclusive": exclusive,
-                   "fee": round(fee, 2), "fingerprints": rec["fingerprints"]}
+        payload = {
+            "id": lid,
+            "owner": owner,
+            "licensee": licensee,
+            "use": use,
+            "territory": territory,
+            "start": start.isoformat(),
+            "end": end.isoformat(),
+            "exclusive": exclusive,
+            "fee": round(fee, 2),
+            "fingerprints": rec["fingerprints"],
+        }
         self.licenses[lid] = payload
         self.usage[lid] = {"impressions": 0, "generations": 0}
         return self._sign(payload)

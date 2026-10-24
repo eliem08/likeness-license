@@ -7,8 +7,12 @@ from .core import LicenseError, Registry, Terms
 
 def demo():
     reg = Registry(b"demo-secret")
-    reg.register("ava.voice", [b"sample-1.wav bytes", b"sample-2.wav bytes"], "voice",
-                 Terms({"advertising", "games", "education"}, territories={"US", "EU"}, exclusive_available=True))
+    reg.register(
+        "ava.voice",
+        [b"sample-1.wav bytes", b"sample-2.wav bytes"],
+        "voice",
+        Terms({"advertising", "games", "education"}, territories={"US", "EU"}, exclusive_available=True),
+    )
     cert = reg.request("ava.voice", "Pixel Games", "games", "US", date(2026, 11, 1), 180)
     print("issued licence for Pixel Games (games, US, 180 days)")
     print("  verify games/US:", reg.verify(cert, "games", "US", date(2026, 12, 1)))

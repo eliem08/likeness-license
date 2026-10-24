@@ -9,7 +9,12 @@ D = date(2026, 11, 1)
 class Tests(unittest.TestCase):
     def setUp(self):
         self.r = Registry(b"k")
-        self.r.register("ava", [b"face1", b"face2"], "face", Terms({"advertising", "games"}, territories={"US"}, exclusive_available=True))
+        self.r.register(
+            "ava",
+            [b"face1", b"face2"],
+            "face",
+            Terms({"advertising", "games"}, territories={"US"}, exclusive_available=True),
+        )
 
     def test_fingerprint_lookup(self):
         self.assertEqual(self.r.owner_of(b"face2"), "ava")
