@@ -1,0 +1,20 @@
+{
+  "terms": {
+    "allowed_uses": [
+      "advertising",
+      "games"
+    ],
+    "territories": [
+      "US"
+    ],
+    "max_days": 365,
+    "exclusive_available": true
+  },
+  "request": {
+    "licensee": "Acme Games",
+    "use": "games",
+    "territory": "US",
+    "start": "2026-11-01",
+    "days": 180
+  }
+}

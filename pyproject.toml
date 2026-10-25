@@ -23,6 +23,7 @@ dev = ["ruff>=0.6"]
 
 [project.scripts]
 likeness-license = "likeness_license.__main__:main"
+likeness-license-web = "likeness_license.web:main"
 
 [project.urls]
 Repository = "https://github.com/eliem08/likeness-license"

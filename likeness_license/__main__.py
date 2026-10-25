@@ -4,6 +4,7 @@ import os
 import sys
 from datetime import date
 
+from .commands import add_commands, run
 from .core import LicenseError, Registry, Terms
 
 
@@ -28,11 +29,19 @@ def demo():
     print("statement:", reg.statement("ava.voice"))
 
 
-def _run(argv=None):
+def build_parser():
     ap = argparse.ArgumentParser(prog="likeness-license")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("demo")
-    ap.parse_args(argv)
+    add_commands(sub)
+    return ap
+
+
+def _run(argv=None):
+    ap = build_parser()
+    a = ap.parse_args(argv)
+    if a.cmd != "demo":
+        return run(a)
     demo()
     return 0
 

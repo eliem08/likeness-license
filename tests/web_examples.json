@@ -1,0 +1,15 @@
+[
+ {
+  "op": "check",
+  "payload": {
+   "request": {
+    "name": "licence-request.json",
+    "content": "{\n  \"terms\": {\n    \"allowed_uses\": [\n      \"advertising\",\n      \"games\"\n    ],\n    \"territories\": [\n      \"US\"\n    ],\n    \"max_days\": 365,\n    \"exclusive_available\": true\n  },\n  \"request\": {\n    \"licensee\": \"Acme Games\",\n    \"use\": \"games\",\n    \"territory\": \"US\",\n    \"start\": \"2026-11-01\",\n    \"days\": 180\n  }\n}\n"
+   }
+  }
+ },
+ {
+  "op": "demo",
+  "payload": {}
+ }
+]
