@@ -46,7 +46,7 @@ Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless
 | **Agency** | $299 per month | Up to 50 talent; Bulk licensing; Verification API |
 | **Studio** | Custom (per-licence fee, contact sales) | Licence talent at scale; Usage reporting; Legal templates |
 
-To start a trial or buy a plan, email **sales@YOUR-DOMAIN.com**.
+To start a trial or buy a plan, [request access](https://github.com/eliem08/likeness-license/issues/new?title=Likeness%20License%20trial&labels=sales).
 
 ## Licence
 
