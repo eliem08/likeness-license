@@ -52,6 +52,38 @@ class Tests(unittest.TestCase):
         self.assertEqual(st["lines"][0]["royalty"], 25.0)
         self.assertEqual(st["total"], 3025.0)
 
+    def test_no_guessable_default_secret(self):
+        import os
+
+        old = os.environ.pop("LIKENESS_SECRET", None)
+        try:
+            forger = Registry(b"dev-secret")
+            forger.register("ava", [b"face1"], "face", Terms({"advertising"}))
+            forged = forger.request("ava", "mallory", "advertising", "US", D, 30)
+            victim = Registry()
+            victim.register("ava", [b"face1"], "face", Terms({"advertising"}))
+            self.assertEqual(victim.verify(forged, "advertising", "US", D), (False, "invalid signature"))
+        finally:
+            if old is not None:
+                os.environ["LIKENESS_SECRET"] = old
+
+    def test_cannot_register_someone_elses_likeness(self):
+        with self.assertRaises(LicenseError):
+            self.r.register("mallory", [b"face1"], "face", Terms({"advertising"}))
+        self.assertEqual(self.r.owner_of(b"face1"), "ava")
+
+    def test_prohibited_purposes_ignore_case(self):
+        for tag in ("Political", " ADULT ", "Endorsement"):
+            with self.subTest(tag=tag), self.assertRaises(LicenseError):
+                self.r.request("ava", "a", "games", "US", D, 30, purpose_tags={tag})
+
+    def test_zero_days_and_negative_usage_are_rejected(self):
+        with self.assertRaises(LicenseError):
+            self.r.request("ava", "a", "games", "US", D, 0)
+        self.r.request("ava", "a", "games", "US", D, 30)
+        with self.assertRaises(LicenseError):
+            self.r.report_usage("LIC-00001", impressions=-1_000_000)
+
 
 if __name__ == "__main__":
     unittest.main()

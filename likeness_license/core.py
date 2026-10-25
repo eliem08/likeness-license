@@ -8,6 +8,7 @@ import hmac
 import itertools
 import json
 import os
+import secrets
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 
@@ -44,7 +45,8 @@ class Terms:
 
 class Registry:
     def __init__(self, secret: bytes | None = None):
-        self.secret = secret or os.environ.get("LIKENESS_SECRET", "dev-secret").encode()
+        # never a guessable default: an unset secret means certificates only verify within this process
+        self.secret = secret or (os.environ.get("LIKENESS_SECRET") or secrets.token_hex(32)).encode()
         self.owners: dict[str, dict] = {}
         self.licenses: dict[str, dict] = {}
         self.revoked: set[str] = set()
@@ -53,6 +55,10 @@ class Registry:
 
     def register(self, owner: str, media: list[bytes], kind: str, terms: Terms) -> dict:
         prints = sorted(hashlib.sha256(m).hexdigest() for m in media)
+        for other, rec in self.owners.items():
+            taken = set(prints) & set(rec["fingerprints"])
+            if other != owner and taken:
+                raise LicenseError(f"{len(taken)} fingerprint(s) already registered to another owner; dispute required")
         self.owners[owner] = {"kind": kind, "fingerprints": prints, "terms": terms}
         return {"owner": owner, "fingerprints": prints}
 
@@ -88,7 +94,10 @@ class Registry:
         t: Terms = rec["terms"]
         if use not in USES or use not in t.allowed_uses:
             raise LicenseError(f"use {use!r} not permitted by owner")
-        bad = (purpose_tags or set()) & t.prohibited
+        if days < 1:
+            raise LicenseError("licence must run at least 1 day")
+        tags = {str(x).strip().casefold() for x in (purpose_tags or set())}
+        bad = tags & {x.casefold() for x in t.prohibited}
         if bad:
             raise LicenseError(f"prohibited purpose: {sorted(bad)}")
         if "worldwide" not in t.territories and territory not in t.territories:
@@ -141,6 +150,8 @@ class Registry:
         self.revoked.add(license_id)
 
     def report_usage(self, license_id: str, impressions: int = 0, generations: int = 0):
+        if impressions < 0 or generations < 0:
+            raise LicenseError("usage counts cannot be negative")
         u = self.usage[license_id]
         u["impressions"] += impressions
         u["generations"] += generations
