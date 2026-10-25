@@ -1,4 +1,4 @@
-"""Getty Images for your face and voice: license your likeness to AI safely."""
+"""Likeness License: License your face and voice to AI companies safely, and get paid for it."""
 
 from .core import *
 

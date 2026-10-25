@@ -1,16 +1,43 @@
-# likeness-license
+<!-- sell-kit:start -->
+# Likeness License
 
 [![CI](https://github.com/eliem08/likeness-license/actions/workflows/ci.yml/badge.svg)](https://github.com/eliem08/likeness-license/actions/workflows/ci.yml)
 
-> **Getty Images for your face and voice** — license your likeness to AI safely.
+> **License your face and voice to AI companies safely, and get paid for it.**
 
-Studios, game makers and ad agencies want to use real people's faces and
-voices in AI-generated content. Today that's either theft or a bespoke
-lawyer-heavy deal. `likeness-license` is the registry + licensing engine:
-creators register their likeness, set terms and prices, buyers get a signed
-licence, and anyone can verify whether a given use is licensed.
+**Who it's for:** Creators, actors and talent agencies.
 
-## What the MVP does
+**The problem:** AI companies want faces and voices, and talent has no safe way to say yes on their own terms or track how their likeness is used.
+
+**What you get:** A likeness registry, licence terms with prohibited uses, signed licences anyone can verify, and royalty statements.
+
+## Quickstart
+
+Customers receive a release archive with the wheel and the examples. Python 3.10+ and no other dependencies.
+
+```bash
+pip install likeness_license-0.1.0-py3-none-any.whl
+likeness-license demo
+```
+
+## Pricing
+
+Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless noted.
+
+| Plan | Price | Includes |
+|---|---|---|
+| **Creator** | $19 per month | Register your likeness; Licence terms; Royalty statements |
+| **Agency** | $299 per month | Up to 50 talent; Bulk licensing; Verification API |
+| **Studio** | Custom (per-licence fee, contact sales) | Licence talent at scale; Usage reporting; Legal templates |
+
+To start a trial or buy a plan, email **sales@YOUR-DOMAIN.com**.
+
+## Licence
+
+Proprietary. Copyright (c) 2026 eliem08. All rights reserved. Use requires a paid plan or an active trial; see [LICENSE](LICENSE).
+<!-- sell-kit:end -->
+
+## What it does
 
 - **Register** likeness assets (face sets, voice samples) by SHA-256 fingerprint
   — the raw media never has to leave the creator's device

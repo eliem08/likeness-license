@@ -5,16 +5,17 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "likeness-license"
 version = "0.1.0"
-description = "Getty Images for your face and voice: license your likeness to AI safely"
+description = "License your face and voice to AI companies safely, and get paid for it."
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = { text = "Proprietary" }
 authors = [{ name = "eliem08" }]
 dependencies = []
 classifiers = [
   "Programming Language :: Python :: 3",
-  "License :: OSI Approved :: MIT License",
+  "License :: Other/Proprietary License",
   "Operating System :: OS Independent",
+  "Private :: Do Not Upload",
 ]
 
 [project.optional-dependencies]
