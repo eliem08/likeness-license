@@ -47,20 +47,24 @@ To sell self-serve, set four variables and point a Stripe webhook at `https://<y
 |---|---|
 | `STRIPE_SECRET_KEY` | `sk_live_...` |
 | `STRIPE_WEBHOOK_SECRET` | `whsec_...` |
-| `STRIPE_PRICES` | `team=price_123,business=price_456` |
+| `STRIPE_PRICES` | `creator=price_123,agency=price_456` |
 | `PUBLIC_URL` | `https://likeness-license.example.com` |
+
+Studio is contact-sales only and must not be added to `STRIPE_PRICES`. Copy `.env.example` to `.env` and fill in real values (never commit `.env`).
 
 Buyers pick a plan on `/pricing`, pay on Stripe Checkout and see their API key once on the success page. Cancelling the subscription revokes the key. A selling server always requires a key.
 
 ## Pricing
 
-Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless noted.
+Monthly plans start with a 14-day free trial. Prices in USD, billed monthly unless noted. All plans unlock the same software in this release; higher tiers add licence scope and support, not gated features.
 
 | Plan | Price | Includes |
 |---|---|---|
 | **Creator** | $19 per month | Register your likeness; Licence terms; Royalty statements |
-| **Agency** | $299 per month | Up to 50 talent; Bulk licensing; Verification API |
-| **Studio** | Custom (per-licence fee, contact sales) | Licence talent at scale; Usage reporting; Legal templates |
+| **Agency** | $299 per month | Everything in Creator |
+| **Studio** | Custom (per-licence fee, contact sales) | Everything in Creator |
+
+Agency rosters, bulk licensing and legal templates are on the roadmap, not shipped; the verification API is part of the software on every plan.
 
 To start a trial or buy a plan, [request access](https://github.com/eliem08/likeness-license/issues/new?title=Likeness%20License%20trial&labels=sales).
 
@@ -95,6 +99,7 @@ likeness-license demo
 - Content credentials (C2PA) embedding licence IDs into generated media
 - Detection side: scan the web for unlicensed uses of a registered face/voice
 - Agency mode: talent agencies managing rosters, payout splits
+- Bulk licensing and legal templates
 
 ## Development
 
