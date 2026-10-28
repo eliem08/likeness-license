@@ -18,6 +18,7 @@ flowchart LR
   Platforms[Platforms / C2PA readers] -->|verify cert| Engine
   Detector[Web detector] -->|unlicensed use found| Creator
 ```
+Note: the Detector and C2PA readers in this diagram are roadmap, not shipped in this release.
 
 ## 3. Issuance checks (in order)
 Owner exists → use allowed → no prohibited purpose tags → territory allowed → duration ≤ max →
@@ -33,10 +34,12 @@ is exclusive, with any licence) for the same use. The fee is `flat_fee[use] × d
   *Trade-off:* exact hashes don't detect derivatives, so the product adds perceptual face and
   voice embeddings stored as irreversible templates.
 
-## 5. Production architecture
+## 5. Future production architecture (not shipped)
 An Ed25519 signing service (KMS-held keys, JWKS published), Postgres (owners, terms versions,
 licences, usage, statements), a C2PA manifest writer for licensees, a detection crawler with an
-embedding index, and Stripe Connect payouts.
+embedding index, and Stripe Connect payouts. None of this is in this release: this release is the
+fingerprint registry, terms engine, HMAC-signed certificates, verification, revocation, usage
+reporting and royalty statements described in §1.
 
 ## 6. Risks
 Right-of-publicity law varies by jurisdiction, so territory-aware terms templates need legal
