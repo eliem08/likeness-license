@@ -1,5 +1,61 @@
 [
  {
+  "op": "owner-register",
+  "payload": {
+   "owner": "Ana Diaz",
+   "media": {
+    "name": "sample-voice.txt",
+    "content": "Sample voice print for the quickstart. Replace with a real photo or recording.\n"
+   },
+   "kind": "voice",
+   "uses": [
+    "advertising",
+    "games"
+   ],
+   "territories": [
+    "worldwide"
+   ],
+   "max_days": 365
+  }
+ },
+ {
+  "op": "whose",
+  "payload": {
+   "media": {
+    "name": "sample-voice.txt",
+    "content": "Sample voice print for the quickstart. Replace with a real photo or recording.\n"
+   }
+  }
+ },
+ {
+  "op": "license",
+  "payload": {
+   "owner": "Ana Diaz",
+   "licensee": "Acme Ads",
+   "use": "advertising",
+   "territory": "worldwide",
+   "days": 90
+  }
+ },
+ {
+  "op": "usage",
+  "payload": {
+   "license_id": "LIC-00001",
+   "impressions": 250000,
+   "generations": 4000
+  }
+ },
+ {
+  "op": "statement",
+  "payload": {
+   "owner": "Ana Diaz"
+  }
+ },
+ {
+  "op": "licenses",
+  "payload": {}
+ },
+ {
   "op": "check",
   "payload": {
    "request": {

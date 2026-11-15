@@ -17,8 +17,9 @@ Customers receive a release archive with the wheel and the examples. Python 3.10
 
 ```bash
 pip install likeness_license-0.1.0-py3-none-any.whl
-likeness-license check examples/licence-request.json
-likeness-license demo
+likeness-license owner-register "Ana Diaz" examples/sample-voice.txt --kind voice --uses advertising games --store likeness.json
+likeness-license whose examples/sample-voice.txt --store likeness.json
+likeness-license license "Ana Diaz" "Acme Ads" --use advertising --days 90 --store likeness.json
 ```
 
 ## Web app and API
@@ -33,7 +34,7 @@ docker build -t likeness-license . && docker run -p 8000:8000 -e API_KEYS=sk_...
 
 Every API call needs `Authorization: Bearer <key>` once any key exists; a server on a public address refuses to start without one. Calls are rate-limited per key (60/min, `--rate`) and metered: `likeness-license-web usage` prints calls per key for billing.
 
-Endpoints: `POST /api/demo`, `POST /api/check`, plus `GET /healthz` and `GET /api/spec` (machine-readable field list).
+Endpoints: `POST /api/demo`, `POST /api/check`, `POST /api/owner-register`, `POST /api/whose`, `POST /api/license`, `POST /api/verify`, `POST /api/revoke`, `POST /api/usage`, `POST /api/statement`, `POST /api/licenses`, plus `GET /healthz` and `GET /api/spec` (machine-readable field list).
 Files are sent as `{"name": ..., "content": ...}`, folders as `{"files": [...]}` or a base64 zip.
 
 ## Deploy and sell
