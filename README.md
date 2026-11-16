@@ -9,7 +9,7 @@
 
 **The problem:** AI companies want faces and voices, and talent has no safe way to say yes on their own terms or track how their likeness is used.
 
-**What you get:** A likeness registry, licence terms with prohibited uses, signed licences anyone can verify, and royalty statements.
+**What you get:** A likeness registry, licence terms with prohibited uses, signed licences that any licensee or platform can check against your registry, and royalty statements.
 
 ## Quickstart
 
