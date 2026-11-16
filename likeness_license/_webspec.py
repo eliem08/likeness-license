@@ -453,4 +453,24 @@ SPEC = {
             "id": "licenses",
         },
     ],
+    "plans": [
+        {
+            "key": "creator",
+            "name": "Creator",
+            "price": "$19 per month",
+            "features": ["Register your likeness", "Licence terms", "Royalty statements"],
+        },
+        {
+            "key": "agency",
+            "name": "Agency",
+            "price": "$299 per month",
+            "features": ["Up to 50 talent", "Verification API", "Revocation"],
+        },
+        {
+            "key": "studio",
+            "name": "Studio",
+            "price": "Per-licence fee, contact sales",
+            "features": ["Licence talent at scale", "Usage reporting", "Royalty statements"],
+        },
+    ],
 }
