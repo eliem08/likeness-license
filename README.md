@@ -55,15 +55,18 @@ Buyers pick a plan on `/pricing`, pay on Stripe Checkout and see their API key o
 
 ## Pricing
 
-Every plan starts with a 14-day free trial. Prices in USD, billed monthly unless noted.
+Monthly plans start with a 14-day free trial. Prices in USD, billed monthly unless noted.
 
 | Plan | Price | Includes |
 |---|---|---|
 | **Creator** | $19 per month | Register your likeness; Licence terms; Royalty statements |
-| **Agency** | $299 per month | Up to 50 talent; Bulk licensing; Verification API |
-| **Studio** | Custom (per-licence fee, contact sales) | Licence talent at scale; Usage reporting; Legal templates |
+| **Agency** | $299 per month | Up to 50 talent; Verification API; Revocation |
+| **Studio** | Custom (per-licence fee, contact sales) | Licence talent at scale; Usage reporting; Royalty statements |
 
 To start a trial or buy a plan, [request access](https://github.com/eliem08/likeness-license/issues/new?title=Likeness%20License%20trial&labels=sales).
+
+Plan note: every plan runs the same software, and every API key unlocks all of it. Seat, agent and volume
+limits are licence terms; the code does not enforce them. Support, SLA and done-for-you items are services.
 
 ## Licence
 
