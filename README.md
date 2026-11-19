@@ -9,7 +9,7 @@
 
 **The problem:** AI companies want faces and voices, and talent has no safe way to say yes on their own terms or track how their likeness is used.
 
-**What you get:** A likeness registry, licence terms with prohibited uses, signed licences that any licensee or platform can check against your registry, and royalty statements.
+**What you get:** A likeness registry, licence terms with prohibited uses, signed licences that any licensee or platform can check against your registry, and royalty statements. Payouts go to owners through Stripe Connect, exactly once.
 
 ## Quickstart
 
@@ -34,7 +34,7 @@ docker build -t likeness-license . && docker run -p 8000:8000 -e API_KEYS=sk_...
 
 Every API call needs `Authorization: Bearer <key>` once any key exists; a server on a public address refuses to start without one. Calls are rate-limited per key (60/min, `--rate`) and metered: `likeness-license-web usage` prints calls per key for billing.
 
-Endpoints: `POST /api/demo`, `POST /api/check`, `POST /api/owner-register`, `POST /api/whose`, `POST /api/license`, `POST /api/verify`, `POST /api/revoke`, `POST /api/usage`, `POST /api/statement`, `POST /api/licenses`, plus `GET /healthz` and `GET /api/spec` (machine-readable field list).
+Endpoints: `POST /api/demo`, `POST /api/check`, `POST /api/owner-register`, `POST /api/whose`, `POST /api/license`, `POST /api/verify`, `POST /api/revoke`, `POST /api/usage`, `POST /api/statement`, `POST /api/licenses`, `POST /api/payee-onboard`, `POST /api/payee-status`, `POST /api/payout-send`, plus `GET /healthz` and `GET /api/spec` (machine-readable field list).
 Files are sent as `{"name": ..., "content": ...}`, folders as `{"files": [...]}` or a base64 zip.
 
 ## Deploy and sell
@@ -95,6 +95,30 @@ Proprietary. Copyright (c) 2026 eliem08. All rights reserved. Use requires a pai
 pip install -e .
 likeness-license demo
 ```
+
+## Paying owners through Stripe Connect
+
+The ledger says what is owed; these commands pay it:
+
+```bash
+likeness-license payee-onboard "Ana Diaz" --email them@example.com   # creates a Stripe Express account, prints its onboarding link
+likeness-license payee-status "Ana Diaz"                                # can that account receive transfers yet?
+likeness-license payout-send --dry-run                                  # who would be paid what
+likeness-license payout-send                                            # pay it
+```
+
+- `payout-send` transfers each owner's licence fees and royalties, less anything already sent.
+- Each transfer's Stripe idempotency key comes from the ledger's state, so running it twice, or retrying after a
+  timeout, never pays twice.
+- Payees still finishing Stripe's onboarding are skipped and named, and a failed transfer is reported, not
+  recorded.
+- Transfers are logged in `<store>.connect.json` beside the ledger.
+- Set `CONNECT_STRIPE_KEY` to the platform's Stripe secret key. It is kept apart from `STRIPE_SECRET_KEY`,
+  which the hosted server uses to sell its own plans. Also set `PUBLIC_URL`, where Stripe sends payees back
+  after onboarding.
+- Transfers draw on the platform's Stripe balance, so the buyers' money has to be collected there first
+  (Checkout, Payment Links or invoices). Stripe refuses a transfer the balance cannot cover.
+- It is built to Stripe's Connect API and tested against a stand-in, not yet against a live account.
 
 ## Roadmap
 

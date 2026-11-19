@@ -12,9 +12,10 @@ import secrets
 from dataclasses import asdict
 from datetime import date
 
+from . import connect
 from .core import USES, LicenseError, Registry, Terms
 
-OPS = ("owner-register", "whose", "license", "verify", "revoke", "usage", "statement", "licenses")
+OPS = ("owner-register", "whose", "license", "verify", "revoke", "usage", "statement", "licenses", *connect.COMMANDS)
 MAX_MEDIA_BYTES = 20 * 1024 * 1024
 
 
@@ -130,11 +131,14 @@ def add_ops(sub):
     p.add_argument("--generations", type=int, default=0)
     sub.add_parser("statement", help="fees and royalties owed to an owner").add_argument("owner")
     sub.add_parser("licenses", help="every licence and whether it is active")
+    connect.add_commands(sub)
     for name in OPS:
         sub.choices[name].add_argument("--store", default=store)
 
 
 def run_ops(a) -> int:
+    if a.cmd in connect.COMMANDS:
+        return connect.run_command(a, _earned, "likeness-license")
     try:
         reg = load(a.store)
         code = _run(reg, a)
@@ -191,3 +195,9 @@ def _run(reg: Registry, a) -> int:
         if not reg.licenses:
             print("no licences yet")
     return 0
+
+
+def _earned(store: str) -> dict:
+    """Cumulative fees and royalties per owner, from their statement."""
+    reg = load(store)
+    return {o: reg.statement(o)["total"] for o in reg.owners if reg.statement(o)["total"] > 0}
